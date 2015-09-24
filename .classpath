@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="conf"/>
+	<classpathentry kind="src" path="demo"/>
+	<classpathentry kind="src" path="output"/>
+	<classpathentry kind="src" path="reports"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="C:/lib/mysql-connector-java-5.1.35-bin.jar"/>
 	<classpathentry kind="lib" path="C:/lib/commons-logging-1.2/commons-logging-1.2.jar"/>

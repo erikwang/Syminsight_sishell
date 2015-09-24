@@ -12,13 +12,21 @@ public class sishell {
 		Connection conn = null;
 		
 		String dbtable;
-		loadConfig("/conf.xml");
+		//Add ./conf.xml as Linux
+		loadConfig("./conf/conf.xml");
+		
+		//For windows
+		//loadConfig("conf\\conf.xml");
 		
 		
-		// TODO Auto-generated method stub
-		System.out.println("Hello SI!");
+		System.out.println("Hello SI 1.0!");
 		try {
-			db = new Dbconn("/proxool.xml");
+			//For Linux
+			db = new Dbconn("./conf/proxool.xml");
+			
+			//For Windows
+			//db = new Dbconn("conf\\proxool.xml");
+			
 			conn = db.getConn();
 			
 		} catch (Exception e) {
@@ -66,6 +74,7 @@ public class sishell {
 		System.out.println("Now loading any configuration from conf.xml...");
 		//XmlReader xmlReader= new XmlReader();
 		//String dbtable = xmlReader.getFromConf("DBTABLE",_confFile);
+		//String defaultlogurl = xmlReader.getFromConf("DEFAULT_LOG_URL",_confFile);
 	}
 	
 	public static void ShowHelp(){

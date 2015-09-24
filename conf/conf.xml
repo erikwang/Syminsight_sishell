@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<SYSTEM>
+		<DBTABLE>sym.vemkd</DBTABLE>
+		
+		
+		<!-- DEFAULT_LOG_URL>./demo/vemkd.log.eksymmh.eng.platformlab.ibm.com</DEFAULT_LOG_URL -->
+		<!-- DEFAULT_LOG_URL>c:\\vemkd1.log</DEFAULT_LOG_URL -->
+		<DEFAULT_LOG_URL>./demo/vemkd.log.eksymmh.eng.platformlab.ibm.com</DEFAULT_LOG_URL>
+		<DEFAULT_PMR_NUM>PMR999,999,999</DEFAULT_PMR_NUM>
+		
+		
+</SYSTEM>

@@ -17,14 +17,25 @@ import com.mysql.jdbc.Connection;
 public class VemkdPerfWidget implements Widget {
 	Connection conn = null;
 	String logurl;
+	String defaultlogurl;
+	String defaultpmrnum;
 	String pmr;
 	String dbtable;
 	boolean wrflag;
+
+	//For Windows
+	//String _confFile = "conf\\conf.xml";
+	
+	//For Linux
+	String _confFile = "./conf/conf.xml";
+	
 	
 	VemkdPerfWidget(){
 		verifyWidget();
 		XmlReader xmlReader= new XmlReader();
-		dbtable = xmlReader.getFromConf("DBTABLE","src\\conf.xml");
+		dbtable = xmlReader.getFromConf("DBTABLE",_confFile);
+		defaultlogurl = xmlReader.getFromConf("DEFAULT_LOG_URL",_confFile);
+		defaultpmrnum = xmlReader.getFromConf("DEFAULT_PMR_NUM",_confFile);
 	}
 	
 	@Override
@@ -99,13 +110,23 @@ public class VemkdPerfWidget implements Widget {
         String[] perfitem;
         String[] perfvalues =new String[16];
 		try {
+			System.out.println("[SI] Loading VEMKD perf data from log file ["+logurl+"] into ["+dbtable+"]" );
 			reader = new FileReader(logurl);
 			BufferedReader br = new BufferedReader(reader);
+			
+			int counter = 0;
+			
 			while((str = br.readLine()) != null) {
+				
+				//get values which cover by <>
 				Pattern pattern = Pattern.compile("\\<(.*?)\\>");
+				
+				//get string clips
 				perfitem = str.split(" ");
+				
 				if(perfitem.length >= 5	&& perfitem[5].equals("printPerf:")){
-					System.out.print(".");
+					counter++;
+					//System.out.print(".");
 					Matcher matcher = pattern.matcher(str);
 					int i = 0;
 					while (matcher.find()){
@@ -131,28 +152,28 @@ public class VemkdPerfWidget implements Widget {
 			}
 			br.close();
 			reader.close();
+			System.out.println("[SI] Total ["+counter+"] lines have been imported.");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			System.out.println("There is an error while loading vemkd performance file, either file is not exist or can't be operated");
 			e.printStackTrace();
 		}
 		System.out.println();
-		System.out.println("Job finished");
 	}
 
 	public void getInfoFromConsole(){
 		Scanner sca = new Scanner(System.in);
-		System.out.println("1. Please input log directory, default = c:\\vemkd.log");
+		System.out.println("1. Please input log directory, default = "+defaultlogurl);
 		logurl = sca.nextLine();
 		if(logurl.equals("")){
-			logurl = "c:\\vemkd.log";
+			logurl = defaultlogurl;
 		}
 		System.out.println("Log url set to ["+logurl+"]");
 		
-		System.out.println("2. Please input pmr number, default = PMR9999 for general test");
+		System.out.println("2. Please input pmr number, default = ["+defaultpmrnum+"] for general test");
 		pmr = sca.nextLine();
 		if(pmr.equals("")){
-			pmr = "PMR9999";
+			pmr = defaultpmrnum;
 		}
 		System.out.println("PMR set to ["+pmr+"]");
 		
