@@ -1,6 +1,9 @@
 package com.ibm.stg.pc.sym.si.util;
 
+
+
 import java.util.Scanner;
+
 
 import com.mysql.jdbc.Connection;
 import com.ibm.stg.pc.sym.si.widget.*;
@@ -33,6 +36,7 @@ public class sishell {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		ShowHelp();
 		while(true){
 			System.out.println("> Please enter your command / ? for help");
 			String name = sca.nextLine();
@@ -51,7 +55,7 @@ public class sishell {
 					System.out.println("Entering Load Log From Vemkd log file");
 					VemkdPerfWidget vpwidget2 = new VemkdPerfWidget();
 					vpwidget2.getDbConnection(conn);
-					vpwidget2.getInfoFromConsole();
+					vpwidget2.runWidget();
 					//loadFromLog("c:\\test1.log","PMR8888","sym.vemkd",false);
 				try {
 					Thread.sleep(100);
@@ -59,6 +63,11 @@ public class sishell {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+					break;
+				case "gr":
+					System.out.println("Entering reporting generator");
+					GenRepWidget genrep = new GenRepWidget();
+					genrep.runWidget();
 					break;
 				case "by":
 					System.out.println("bye - thank you for using this tool");
@@ -78,6 +87,6 @@ public class sishell {
 	}
 	
 	public static void ShowHelp(){
-		System.out.println("Available command: ll - Load log | l - general database access test | by - quit");
+		System.out.println("Available command: \nll - Load log  \nl - general database access test \ngr - generate a report  \nby - quit");
 	}
 }
