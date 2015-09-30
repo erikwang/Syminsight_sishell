@@ -46,11 +46,6 @@ public class sishell {
 					break;
 				case "cdb":
 					break;
-				case "l":
-					VemkdPerfWidget vpwidget = new VemkdPerfWidget();
-					vpwidget.getDbConnection(conn);
-					vpwidget.runWidget();
-					break;
 				case "ll":
 					System.out.println("Entering Load Log From Vemkd log file");
 					VemkdPerfWidget vpwidget2 = new VemkdPerfWidget();
@@ -87,6 +82,6 @@ public class sishell {
 	}
 	
 	public static void ShowHelp(){
-		System.out.println("Available command: \nll - Load log  \nl - general database access test \ngr - generate a report  \nby - quit");
+		System.out.println("Available command: \nll - Load Log  \ngr - Generate Report  \nby - quit");
 	}
 }
