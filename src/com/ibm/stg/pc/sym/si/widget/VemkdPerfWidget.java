@@ -114,8 +114,8 @@ public class VemkdPerfWidget implements Widget {
         String[] perfvalues =new String[16];
         
         //overwrite - remove previous record first
-        System.out.println("[SI] Over-write flag = true, removing previous logs from ["+dbtable+"]" );
         if(owrflag == true){
+        	System.out.println("[SI] Over-write flag = true, removing previous logs from ["+dbtable+"]" );
         	String sql1 = "DELETE FROM sym.vemkd where PMR='"+pmr+"'";
 			Statement stmt1 = null;
 			try {
@@ -145,30 +145,32 @@ public class VemkdPerfWidget implements Widget {
 				
 				//get string clips
 				perfitem = str.split(" ");
-				logdate = perfitem[0]+" "+perfitem[1];
-				if(perfitem.length >= 5	&& perfitem[5].equals("printPerf:")){
-					counter++;
-					//System.out.print(".");
-					Matcher matcher = pattern.matcher(str);
-					int i = 0;
-					while (matcher.find()){
-						perfvalues[i] = matcher.group(1);
-						i++;
-						printloading(i%4);
-					}
-					String sql = "INSERT INTO "+dbtable+
-                    "(logdate,importdate,opcode,totalcnt,totaltime,maxtime,mintime,totalfileio,maxfileio,minfileio,"+
-                    "totaliocounter,totalchanopentime,maxchanopentime,minchanopentime,func,PMR)"+
-                    " values('"+logdate+"',SYSDATE(),"+perfvalues[0]+","+perfvalues[1]+","+perfvalues[2]+","+perfvalues[3]+","+perfvalues[4]+","+perfvalues[5]+","+perfvalues[6]+","+perfvalues[7]+","+perfvalues[8]+","+perfvalues[9]+","+perfvalues[10]+","+perfvalues[11]+",'"+perfvalues[12]+"','"+pmr+"')";
-					//System.out.println(sql);
-					if (wrflag){
-						try{
-							Statement stmt2 = conn.createStatement();
-							stmt2.executeUpdate(sql);
-							stmt2.close();
-						}catch(SQLException e){
-							e.printStackTrace();
-						}	
+				if (perfitem.length >2){
+					logdate = perfitem[0]+" "+perfitem[1];
+					if(perfitem.length >= 5	&& perfitem[5].equals("printPerf:")){
+						counter++;
+						//System.out.print(".");
+						Matcher matcher = pattern.matcher(str);
+						int i = 0;
+						while (matcher.find()){
+							perfvalues[i] = matcher.group(1);
+							i++;
+							printloading(i%4, counter);
+						}
+						String sql = "INSERT INTO "+dbtable+
+	                    "(logdate,importdate,opcode,totalcnt,totaltime,maxtime,mintime,totalfileio,maxfileio,minfileio,"+
+	                    "totaliocounter,totalchanopentime,maxchanopentime,minchanopentime,func,PMR)"+
+	                    " values('"+logdate+"',SYSDATE(),"+perfvalues[0]+","+perfvalues[1]+","+perfvalues[2]+","+perfvalues[3]+","+perfvalues[4]+","+perfvalues[5]+","+perfvalues[6]+","+perfvalues[7]+","+perfvalues[8]+","+perfvalues[9]+","+perfvalues[10]+","+perfvalues[11]+",'"+perfvalues[12]+"','"+pmr+"')";
+						//System.out.println(sql);
+						if (wrflag){
+							try{
+								Statement stmt2 = conn.createStatement();
+								stmt2.executeUpdate(sql);
+								stmt2.close();
+							}catch(SQLException e){
+								e.printStackTrace();
+							}	
+						}
 					}
 				}
 			}
@@ -221,8 +223,8 @@ public class VemkdPerfWidget implements Widget {
 		}
 	}
 	
-	public void printloading(int index){
+	public void printloading(int index, int count){
 		String[] symbol = {"|","/","-","\\"};
-		System.out.print(symbol[index]+"\r");
+		System.out.print(symbol[index]+" ["+count+"] line(s) have been imported to database\r");
 	}
 }
