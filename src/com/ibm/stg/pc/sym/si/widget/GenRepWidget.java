@@ -1,11 +1,14 @@
 package com.ibm.stg.pc.sym.si.widget;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Scanner;
 
+import com.ibm.stg.pc.sym.si.util.Dbconn;
 import com.ibm.stg.pc.sym.si.util.XmlReader;
 import com.ibm.stg.pc.sym.si.widget.Widget;
-import com.mysql.jdbc.Connection;
+import com.ibm.stg.pc.sym.si.util.SiUtil;
+
 
 public class GenRepWidget implements Widget {
 	String defaultrepurl;
@@ -24,6 +27,7 @@ public class GenRepWidget implements Widget {
 	
 	//For Linux
 	String _confFile = "./conf/conf_genrep.xml";
+	SiUtil myutil = new SiUtil();
 	
 	
 	public GenRepWidget(){
@@ -41,11 +45,6 @@ public class GenRepWidget implements Widget {
 		this.genReport();
 	}
 
-	@Override
-	public void getDbConnection(Connection conn) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	@Override
 	public void verifyWidget() {
@@ -69,7 +68,8 @@ public class GenRepWidget implements Widget {
 		try {
 			runprocess = Runtime.getRuntime().exec(command);
 			runprocess.waitFor();
-			System.out.println("[SI]Run generate report command exit with code "+runprocess.exitValue());
+			System.out.println("[SI] Run generate report command exit with code "+runprocess.exitValue());
+			System.out.println("[SI] Please find the output at following directory "+outputurl);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -79,7 +79,6 @@ public class GenRepWidget implements Widget {
 		}finally{
 			runprocess.destroy();
 		}
-		
 	}
 
 	public void getInfoFromConsole(){
@@ -96,19 +95,40 @@ public class GenRepWidget implements Widget {
 			format = defaultformat;
 		}
 		System.out.println("Format set to ["+format+"]");
-		System.out.println("3. Please enter the parameter file url, default = ["+defaultparafileurl+"]");
+		System.out.println("3. Please enter the parameter file url, default = ["+defaultparafileurl+"], values see below:");
+		myutil.showMap(myutil.parseParaFile(defaultparafileurl));
+		
+		//getFileList();
+		
 		String strwrflag = sca.nextLine();
 		if(strwrflag.equals("")){
 			parafile = defaultparafileurl;
 		}
-		System.out.println("Parameter file url set to ["+parafile+"]");
+		
+		System.out.println("Parameter file url set to ["+parafile+"], values see below:");
+		myutil.showMap(myutil.parseParaFile(parafile));
+		
+		
+		//System.out.println("Is the para file correct? (y/n) default = y");
+		//String strparafileflag = sca.nextLine();
+		
+		
 		System.out.println("4. Please enter the output file url, default = ["+defaultoutputurl+"]");
 		outputurl = sca.nextLine();
 		if(outputurl.equals("")){
-			outputurl = defaultoutputurl;
+			Calendar cal = Calendar.getInstance();
+	        long sdf = System.currentTimeMillis();
+			outputurl = defaultoutputurl+"."+sdf;
 		}
 		System.out.println("Output file url set to ["+outputurl+"]");
 		
 	}
 
+	@Override
+	public void getDbConnection(Dbconn dbconn) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 }

@@ -6,7 +6,7 @@
 		<DEFAULT_LOG_URL>./demo/vemkd.log.eksymmh.eng.platformlab.ibm.com</DEFAULT_LOG_URL>
 		<DEFAULT_PMR_NUM>PMR999,999,999</DEFAULT_PMR_NUM>
 		
-		<DEFAULT_OUTPUT_URL>./output/vemkd.pdf</DEFAULT_OUTPUT_URL>
+		<DEFAULT_OUTPUT_URL>./output/</DEFAULT_OUTPUT_URL>
 		<DEFAULT_FORMAT>PDF</DEFAULT_FORMAT>
 		<DEFAULT_REPORT_FILE_URL>./reports/vemkdgen/sym_vemkd_perf.rptdesign</DEFAULT_REPORT_FILE_URL>
 		<DEFAULT_PARAMETER_FILE_URL>./reports/vemkdgen/para.file</DEFAULT_PARAMETER_FILE_URL>

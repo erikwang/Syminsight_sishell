@@ -1,6 +1,7 @@
 package com.ibm.stg.pc.sym.si.widget;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,12 +11,17 @@ import java.util.Date;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.LinkedList;
 
+import com.ibm.stg.pc.sym.si.util.Dbconn;
 import com.ibm.stg.pc.sym.si.util.XmlReader;
 import com.ibm.stg.pc.sym.si.widget.Widget;
 import com.mysql.jdbc.Connection;
 
+
+
 public class VemkdPerfWidget implements Widget {
+	//Dbconn dbconn = null;
 	Connection conn = null;
 	String logurl;
 	String defaultlogurl;
@@ -42,6 +48,7 @@ public class VemkdPerfWidget implements Widget {
 	
 	@Override
 	public void runWidget() {
+		verifyWidget();
 		getInfoFromConsole();
 		loadFromLog();
 	}
@@ -51,6 +58,10 @@ public class VemkdPerfWidget implements Widget {
 		// TODO Auto-generated method stub
 		System.out.println("Verifying this widget...");
 		System.out.println("Load From Database: This script will log vemkd performance logs into database");
+		if (this.conn == null){
+			System.out.println("Database connection is lost, connecting...");
+			this.conn = Dbconn.getConn();
+		}
 	}
 
 	@Override
@@ -60,9 +71,9 @@ public class VemkdPerfWidget implements Widget {
 	}
 
 	@Override
-	public void getDbConnection(Connection conn1) {
+	public void getDbConnection(Dbconn db) {
 		// TODO Auto-generated method stub
-		this.conn = conn1;
+		//this.dbconn = db;
 		
 	}
 	
@@ -226,5 +237,40 @@ public class VemkdPerfWidget implements Widget {
 	public void printloading(int index, int count){
 		String[] symbol = {"|","/","-","\\"};
 		System.out.print(symbol[index]+" ["+count+"] line(s) have been imported to database\r");
+	}
+	
+	public void getFileList(){
+		long a = System.currentTimeMillis();
+        
+        LinkedList list = new LinkedList();
+        File dir = new File("./reports/");
+        File[] file = dir.listFiles();
+        for (int i = 0; i < file.length; i++) {
+            if (file[i].isDirectory())
+                list.addLast(file[i]);
+            else
+                System.out.println(file[i].getAbsolutePath());
+        }
+        File tmp;
+        while (!list.isEmpty()) {
+            tmp = (File) list.removeFirst();
+            if (tmp.isDirectory()) {
+                file = tmp.listFiles();
+                if (file == null)
+                    continue;
+                for (int i = 0; i < file.length; i++) {
+                    if (file[i].isDirectory())
+                        list.add(file[i]);
+                    else
+                        System.out.println(file[i].getAbsolutePath());
+                }
+            } else {
+                System.out.println(tmp.getAbsolutePath());
+            }
+        }
+        
+        System.out.println(System.currentTimeMillis() - a);
+		
+		
 	}
 }

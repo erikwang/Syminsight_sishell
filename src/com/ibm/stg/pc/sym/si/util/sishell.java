@@ -5,11 +5,15 @@ package com.ibm.stg.pc.sym.si.util;
 import java.util.Scanner;
 
 
+
 import com.mysql.jdbc.Connection;
 import com.ibm.stg.pc.sym.si.widget.*;
 
 public class sishell {
 	static Dbconn db;
+	static VemkdPerfWidget vpwidget;
+	static GenRepWidget genrep;
+	
 	public static void main(String[] args) {
 		Scanner sca = new Scanner(System.in);
 		Connection conn = null;
@@ -22,7 +26,7 @@ public class sishell {
 		//loadConfig("conf\\conf.xml");
 		
 		
-		System.out.println("Hello SI 1.0!");
+		System.out.println("Hello SI 0.9 alpha!");
 		try {
 			//For Linux
 			db = new Dbconn("./conf/proxool.xml");
@@ -30,17 +34,28 @@ public class sishell {
 			//For Windows
 			//db = new Dbconn("conf\\proxool.xml");
 			
-			conn = db.getConn();
+			//conn = db.getConn();
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		ShowHelp();
+		
+		initializeModules();
+		
+		String name = null;
 		while(true){
-			System.out.println("> Please enter your command / ? for help");
-			String name = sca.nextLine();
-			switch(name){
+			if(name == null){
+				System.out.println("> Who are you?");
+				name = sca.nextLine();
+				if(name.equals("")){
+					name = "Guest";
+				}
+			}
+			System.out.println(name+", please enter your command / ? for help");
+			ShowHelp();
+			String command = sca.nextLine();
+			switch(command){
 				case "?":
 					ShowHelp();
 					break;
@@ -48,20 +63,17 @@ public class sishell {
 					break;
 				case "ll":
 					System.out.println("Entering Load Log From Vemkd log file");
-					VemkdPerfWidget vpwidget2 = new VemkdPerfWidget();
-					vpwidget2.getDbConnection(conn);
-					vpwidget2.runWidget();
+					//vpwidget.getDbConnection(db);
+					vpwidget.runWidget();
 					//loadFromLog("c:\\test1.log","PMR8888","sym.vemkd",false);
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 					break;
 				case "gr":
 					System.out.println("Entering reporting generator");
-					GenRepWidget genrep = new GenRepWidget();
 					genrep.runWidget();
 					break;
 				case "by":
@@ -79,6 +91,11 @@ public class sishell {
 		//XmlReader xmlReader= new XmlReader();
 		//String dbtable = xmlReader.getFromConf("DBTABLE",_confFile);
 		//String defaultlogurl = xmlReader.getFromConf("DEFAULT_LOG_URL",_confFile);
+	}
+	
+	public static void initializeModules(){
+		vpwidget = new VemkdPerfWidget();
+		genrep = new GenRepWidget();
 	}
 	
 	public static void ShowHelp(){
