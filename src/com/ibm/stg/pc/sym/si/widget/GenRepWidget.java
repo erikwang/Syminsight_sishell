@@ -61,7 +61,7 @@ public class GenRepWidget implements Widget {
 
 	
 	public void genReport(){
-		String command = "./ReportEngine/genReport.sh -m runrender -f "+format+" -F "+parafile+" -o "+outputurl+" "+repurl;
+		String command = "./ReportEngine/genReport.sh -m runrender -f "+format.trim()+" -F "+parafile.trim()+" -o "+outputurl.trim()+" "+repurl.trim();
 		System.out.println("[SI] Report generate command: "+command);
 		System.out.println("[SI] Preparing report file...");
 		Process runprocess = null;
@@ -100,13 +100,13 @@ public class GenRepWidget implements Widget {
 		
 		//getFileList();
 		
-		String strwrflag = sca.nextLine();
-		if(strwrflag.equals("")){
+		parafile = sca.nextLine();
+		if(parafile.equals("")){
 			parafile = defaultparafileurl;
 		}
 		
 		System.out.println("Parameter file url set to ["+parafile+"], values see below:");
-		myutil.showMap(myutil.parseParaFile(parafile));
+		myutil.showMap(myutil.parseParaFile(parafile.trim()));
 		
 		
 		//System.out.println("Is the para file correct? (y/n) default = y");
