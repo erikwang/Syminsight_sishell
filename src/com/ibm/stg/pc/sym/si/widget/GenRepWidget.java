@@ -62,8 +62,8 @@ public class GenRepWidget implements Widget {
 	
 	public void genReport(){
 		String command = "./ReportEngine/genReport.sh -m runrender -f "+format.trim()+" -F "+parafile.trim()+" -o "+outputurl.trim()+" "+repurl.trim();
-		System.out.println("[SI] Report generate command: "+command);
-		System.out.println("[SI] Preparing report file...");
+		//System.out.println("[SI] Report generate command: "+command);
+		System.out.println("[SI] Preparing report file, please wait....");
 		Process runprocess = null;
 		try {
 			runprocess = Runtime.getRuntime().exec(command);
@@ -83,7 +83,7 @@ public class GenRepWidget implements Widget {
 
 	public void getInfoFromConsole(){
 		Scanner sca = new Scanner(System.in);
-		System.out.println("1. Please enter the report file name directory, default = "+defaultrepurl);
+		System.out.println("1. Please enter the report file name directory, default = ["+defaultrepurl+"]");
 		repurl = sca.nextLine();
 		if(repurl.equals("")){
 			repurl = defaultrepurl;

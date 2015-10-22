@@ -2,6 +2,7 @@ package com.ibm.stg.pc.sym.si.widget;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -150,6 +151,8 @@ public class VemkdPerfWidget implements Widget {
 			String logdate;
 			
 			while((str = br.readLine()) != null) {
+				perfitem = null;
+				//System.out.println("*"+str);
 				
 				//get values which cover by <>
 				Pattern pattern = Pattern.compile("\\<(.*?)\\>");
@@ -158,7 +161,7 @@ public class VemkdPerfWidget implements Widget {
 				perfitem = str.split(" ");
 				if (perfitem.length >2){
 					logdate = perfitem[0]+" "+perfitem[1];
-					if(perfitem.length >= 5	&& perfitem[5].equals("printPerf:")){
+					if(perfitem.length-1 >= 5	&& perfitem[5].equals("printPerf:")){
 						counter++;
 						//System.out.print(".");
 						Matcher matcher = pattern.matcher(str);
@@ -203,6 +206,10 @@ public class VemkdPerfWidget implements Widget {
 		if(logurl.equals("")){
 			logurl = defaultlogurl;
 		}
+		
+		while(! checkFileUrl(logurl)){
+			logurl = sca.nextLine();
+		}
 		System.out.println("Log url set to ["+logurl+"]");
 		
 		System.out.println("2. Please input pmr number, default = ["+defaultpmrnum+"] for general test");
@@ -212,7 +219,7 @@ public class VemkdPerfWidget implements Widget {
 		}
 		System.out.println("PMR set to ["+pmr+"]");
 		
-		System.out.println("3. Do you want to write to database, default = N");
+		System.out.println("3. Do you want to write to database, default = N (N means a parser test)");
 		String strwrflag = sca.nextLine();
 		strwrflag = strwrflag.toUpperCase();
 		if(strwrflag.equals("Y")){
@@ -223,9 +230,10 @@ public class VemkdPerfWidget implements Widget {
 		System.out.println("Write flag set to ["+wrflag+"]");
 		
 		if(wrflag){
-			System.out.println("4. Do you want to over-write to database, default = N");
+			System.out.println("4. Do you want to over-write to database, default = N (no over-write means to append those data to this PMR, it may cause duplicate records)");
 			String strowrflag = sca.nextLine();
-			if(strowrflag.equals("y")){
+			strowrflag = strowrflag.toUpperCase();
+			if(strowrflag.equals("Y")){
 				owrflag = true;
 			}else{
 				owrflag = false;
@@ -270,7 +278,19 @@ public class VemkdPerfWidget implements Widget {
         }
         
         System.out.println(System.currentTimeMillis() - a);
-		
-		
+	}
+	
+	public boolean checkFileUrl(String url){
+		try {
+			FileReader reader = null;
+			reader = new FileReader(url);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Can't find/open "+url+", please check and enter again.");
+			return false;
+			//e.printStackTrace();
+		}
+		System.out.println(url+", verified.");
+		return true;
 	}
 }
