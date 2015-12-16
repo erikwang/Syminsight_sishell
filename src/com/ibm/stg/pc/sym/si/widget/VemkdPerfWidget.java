@@ -7,22 +7,22 @@ import java.io.FileReader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.LinkedList;
+import com.mysql.jdbc.Connection;
+
 
 import com.ibm.stg.pc.sym.si.util.Dbconn;
 import com.ibm.stg.pc.sym.si.util.XmlReader;
 import com.ibm.stg.pc.sym.si.widget.Widget;
-import com.mysql.jdbc.Connection;
+
 
 
 
 public class VemkdPerfWidget implements Widget {
-	//Dbconn dbconn = null;
+	Dbconn dbconn = null;
 	Connection conn = null;
 	String logurl;
 	String defaultlogurl;
@@ -40,7 +40,7 @@ public class VemkdPerfWidget implements Widget {
 	
 	
 	public VemkdPerfWidget(){
-		verifyWidget();
+		//verifyWidget();
 		XmlReader xmlReader= new XmlReader();
 		dbtable = xmlReader.getFromConf("DB_TABLE",_confFile);
 		defaultlogurl = xmlReader.getFromConf("DEFAULT_LOG_URL",_confFile);
@@ -58,10 +58,10 @@ public class VemkdPerfWidget implements Widget {
 	public void verifyWidget() {
 		// TODO Auto-generated method stub
 		System.out.println("Verifying this widget...");
-		System.out.println("Load From Database: This script will log vemkd performance logs into database");
+		System.out.println("Load to Database: This script will log vemkd performance logs into database");
 		if (this.conn == null){
 			System.out.println("Database connection is lost, connecting...");
-			this.conn = Dbconn.getConn();
+			this.conn = dbconn.getConn();
 		}
 	}
 
@@ -71,12 +71,7 @@ public class VemkdPerfWidget implements Widget {
 		return false;
 	}
 
-	@Override
-	public void getDbConnection(Dbconn db) {
-		// TODO Auto-generated method stub
-		//this.dbconn = db;
-		
-	}
+
 	
 	public void doSomeTest(){
 		// TODO Auto-generated method stub
@@ -114,8 +109,7 @@ public class VemkdPerfWidget implements Widget {
 						e.printStackTrace();
 					}
 					
-				//	allcards.showAllcards();
-				//	allcardshash.showAllcards();
+			
 		
 	}
 	
@@ -292,5 +286,13 @@ public class VemkdPerfWidget implements Widget {
 		}
 		System.out.println(url+", verified.");
 		return true;
+	}
+
+	@Override
+	
+	
+	public void setDbConnection(Dbconn _dbconn) {
+		// TODO Auto-generated method stub
+		this.dbconn = _dbconn;
 	}
 }

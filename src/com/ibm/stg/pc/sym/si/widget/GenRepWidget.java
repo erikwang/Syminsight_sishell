@@ -125,7 +125,7 @@ public class GenRepWidget implements Widget {
 	}
 
 	@Override
-	public void getDbConnection(Dbconn dbconn) {
+	public void setDbConnection(Dbconn _dbconn) {
 		// TODO Auto-generated method stub
 		
 	}

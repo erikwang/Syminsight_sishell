@@ -7,5 +7,5 @@ public interface Widget {
 	void runWidget();
 	void verifyWidget();
 	boolean loadWidget();
-	void getDbConnection(Dbconn dbconn);
+	void setDbConnection(Dbconn _dbconn);
 }

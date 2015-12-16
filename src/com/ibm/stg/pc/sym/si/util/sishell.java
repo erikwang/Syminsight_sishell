@@ -13,6 +13,8 @@ public class sishell {
 	static Dbconn db;
 	static VemkdPerfWidget vpwidget;
 	static GenRepWidget genrep;
+	static ScriptCaller sccaller;
+	static DataInitialWidget datainit;
 	
 	public static void main(String[] args) {
 		Scanner sca = new Scanner(System.in);
@@ -76,6 +78,18 @@ public class sishell {
 					System.out.println("Entering reporting generator");
 					genrep.runWidget();
 					break;
+				case "sc":
+					System.out.println("Script caller");
+					sccaller.runWidget();
+					break;
+				case "di":
+					System.out.println("Coverage data initializer (credential check required)");
+					if(! name.equals("erikwang")){
+						System.out.println("You are not allowed to run this widget.");
+					}else{
+						datainit.runWidget();	
+					}	
+					break;
 				case "by":
 					System.out.println("bye - thank you for using this tool");
 					return;
@@ -94,11 +108,16 @@ public class sishell {
 	}
 	
 	public static void initializeModules(){
+		datainit = new DataInitialWidget();
+		//datainit.setDbConnection(db);
 		vpwidget = new VemkdPerfWidget();
+		//vpwidget.setDbConnection(db);
 		genrep = new GenRepWidget();
+		sccaller = new ScriptCaller();
+
 	}
 	
 	public static void ShowHelp(){
-		System.out.println("Available command: \nll - Load Log  \ngr - Generate Report  \nby - quit");
+		System.out.println("Available command: \nll - Load Log  \ngr - Generate Report \nsc - Script Caller (Under construction) \ndi - Coverage Data Initialize \nby - quit");
 	}
 }

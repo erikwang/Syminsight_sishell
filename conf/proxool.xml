@@ -3,7 +3,8 @@
 <something-else-entirely>
 <proxool>
 	<alias>sipool</alias>
-	<driver-url>jdbc:mysql://ekmcmc.eng.platformlab.ibm.com:3306/sym</driver-url>
+	<!--  driver-url>jdbc:mysql://ekmcmc.eng.platformlab.ibm.com:3306/sym</driver-url -->
+	<driver-url>jdbc:mysql://9.21.59.15:3306/sym</driver-url>
 	<driver-class>com.mysql.jdbc.Driver</driver-class>
 	<driver-properties>
 		<property name="user" value="root"/>
