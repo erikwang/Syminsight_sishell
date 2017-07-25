@@ -23,15 +23,26 @@ public class DataInitialWidget implements Widget {
 		System.out.println();
 		System.out.println("Welcome to coverage data initialize widget.");
 		
+		final int TEAMSN = 1;
+		final int NUM_OF_PEOPLE_FOR_NAW;
+		final int NUM_OF_PEOPLE_FOR_HOTLINE = 9;
+		final int COVERAGE_OFFICE_HOUR = 1;
+		final int COVERAGE_HOTLINE_WEEKDAY = 8;
+		final int COVERAGE_HOTLINE_WEEKEND = 9;
+		final String YEAR = "2017";
+		
+		
+		
+		
 		// TODO Auto-generated method stub
 		String sql_everyoffice = "insert into sym.coverage (engineersn,coverage,date)"
-				+ " select a.sn,1,b.db_date from sym.td_engineers a,sym.time_dimension b "
-				+ "where weekend_flag='f' and holiday_flag='f' and a.team = 1 and year = '2016'";
+				+ " select a.sn,"+COVERAGE_OFFICE_HOUR+",b.db_date from sym.td_engineers a,sym.time_dimension b "
+				+ "where weekend_flag='f' and holiday_flag='f' and a.team = "+TEAMSN+" and year ="+YEAR;
 		
 		
 		
 		String sql_getEngineerSn = "select sn from sym.td_engineers "
-				+ "where estatus = 1 and team =1 and chotline=1 "
+				+ "where estatus = 1 and team ="+TEAMSN+" and chotline=1 "
 				+ "order by firstname";
 		
 		try {
@@ -42,23 +53,24 @@ public class DataInitialWidget implements Widget {
 			e1.printStackTrace();
 		}
 		
-
+		System.out.println("Note: You need to run those SQL on MYSQL manually!!!");
+		System.out.println("");
 		
 		String sql_hotline1, sql_hotline2;
 		String i_sql_hotline1, i_sql_hotline2;
 		String sql_naw, i_sql_naw;
-		System.out.println("delete from sym.coverage where date >= '2016-01-01'");
+		System.out.println("delete from sym.coverage where date >= '2017-01-01'");
 		
 		try {
 			int t = 0;
 			for (;rst1.next();){
-				sql_hotline1 = "select NULL,"+rst1.getInt(1)+",8,b.db_date "
+				sql_hotline1 = "select NULL,"+rst1.getInt(1)+","+COVERAGE_HOTLINE_WEEKDAY+",b.db_date "
 						+ "from sym.td_engineers a,sym.time_dimension b "
-						+ "where weekend_flag='f' and a.team = 1 and year = '2016' and week%11="+t+" and a.sn = "+rst1.getInt(1) +" and b.month <= 12";
+						+ "where weekend_flag='f' and a.team = "+TEAMSN+" and year = "+YEAR+" and week%"+NUM_OF_PEOPLE_FOR_HOTLINE+"="+t+" and a.sn = "+rst1.getInt(1) +" and b.month <= 12";
 				
-				sql_hotline2 = "select NULL,"+rst1.getInt(1)+",9,b.db_date "
+				sql_hotline2 = "select NULL,"+rst1.getInt(1)+","+COVERAGE_HOTLINE_WEEKEND+",b.db_date "
 						+ "from sym.td_engineers a,sym.time_dimension b "
-						+ "where weekend_flag='t' and a.team = 1 and year = '2016' and week%11="+t+" and a.sn = "+rst1.getInt(1) +" and b.month <= 12";
+						+ "where weekend_flag='t' and a.team = "+TEAMSN+" and year = "+YEAR+" and week%"+NUM_OF_PEOPLE_FOR_HOTLINE+"="+t+" and a.sn = "+rst1.getInt(1) +" and b.month <= 12";
 							
 				
 				
@@ -79,7 +91,7 @@ public class DataInitialWidget implements Widget {
 				if (rst1.getInt(1) != 14 && rst1.getInt(1) != 21){ //exclude Mark and Geoff for NAW
 					sql_naw = "select NULL,"+rst1.getInt(1)+",3,b.db_date "
 							+ "from sym.td_engineers a,sym.time_dimension b "
-							+ "where weekend_flag='f' and a.team = 1 and year = '2016' and week%(11-2)="+t+" and a.sn = "+rst1.getInt(1) +" and b.month <= 12";
+							+ "where weekend_flag='f' and a.team = 1 and year = '"+YEAR+"' and week%(11-2)="+t+" and a.sn = "+rst1.getInt(1) +" and b.month <= 12";
 					i_sql_naw = "insert into sym.coverage (sn,engineersn,coverage,date) "+ sql_naw+";";
 					t++;
 					System.out.println(i_sql_naw);
@@ -143,4 +155,8 @@ public class DataInitialWidget implements Widget {
 		
 	}
 	
+	
+	public static void main(){
+		
+	}
 }

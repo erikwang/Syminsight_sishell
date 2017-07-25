@@ -64,7 +64,7 @@ public class sishell {
 				case "cdb":
 					break;
 				case "ll":
-					System.out.println("Entering Load Log From Vemkd log file");
+					System.out.println("Entering load performance logs from VEMKD log file to database...");
 					//vpwidget.getDbConnection(db);
 					vpwidget.runWidget();
 					//loadFromLog("c:\\test1.log","PMR8888","sym.vemkd",false);

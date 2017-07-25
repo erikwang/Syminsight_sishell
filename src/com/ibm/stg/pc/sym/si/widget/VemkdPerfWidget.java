@@ -58,7 +58,7 @@ public class VemkdPerfWidget implements Widget {
 	public void verifyWidget() {
 		// TODO Auto-generated method stub
 		System.out.println("Verifying this widget...");
-		System.out.println("Load to Database: This script will log vemkd performance logs into database");
+		System.out.println("Load to Database: This script will load vemkd performance logs into database");
 		if (this.conn == null){
 			System.out.println("Database connection is lost, connecting...");
 			this.conn = dbconn.getConn();
