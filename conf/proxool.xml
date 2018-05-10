@@ -3,8 +3,9 @@
 <something-else-entirely>
 <proxool>
 	<alias>sipool</alias>
-	<!--  driver-url>jdbc:mysql://ekmcmc.eng.platformlab.ibm.com:3306/sym</driver-url -->
-	<driver-url>jdbc:mysql://9.21.59.15:3306/sym</driver-url>
+	<!--Connect to mysql instance in docker server 172.30.50.86   -->
+	<driver-url>jdbc:mysql://172.30.50.86:3306/sym</driver-url>
+	<message>To start the docker image: "docker run --name ekmysqlex --rm -e MYSQL_ROOT_PASSWORD=toor -p 3306:3306 -d mysirius/ekmysqlex:2.0"</message>
 	<driver-class>com.mysql.jdbc.Driver</driver-class>
 	<driver-properties>
 		<property name="user" value="root"/>
