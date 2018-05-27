@@ -1,12 +1,13 @@
 package com.ibm.stg.pc.sym.si.widget;
 
+import java.sql.Connection;
 import org.python.util.PythonInterpreter;
 import com.ibm.stg.pc.sym.si.util.Dbconn;
 
 public class ScriptCaller implements Widget {
 
 	@Override
-	public void runWidget() {
+	public void runWidget(Connection conn) {
 		// TODO Auto-generated method stub
 		System.out.println("I am going to call a script");
 		String binurl = "/scratch/supsym/erikwang/temp/lsfcheck/";
@@ -41,7 +42,7 @@ public class ScriptCaller implements Widget {
 	}
 
 	@Override
-	public void setDbConnection(Dbconn _dbconn) {
+	public void setDbConnectionPool(Dbconn _dbconn) {
 		// TODO Auto-generated method stub
 
 	}

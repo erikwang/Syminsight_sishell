@@ -11,14 +11,11 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.LinkedList;
-import com.mysql.jdbc.Connection;
+import java.sql.Connection;
 
 
 import com.ibm.stg.pc.sym.si.util.Dbconn;
 import com.ibm.stg.pc.sym.si.util.XmlReader;
-import com.ibm.stg.pc.sym.si.widget.Widget;
-
-
 
 
 public class VemkdPerfWidget implements Widget {
@@ -46,13 +43,13 @@ public class VemkdPerfWidget implements Widget {
 		defaultlogurl = xmlReader.getFromConf("DEFAULT_LOG_URL",_confFile);
 		defaultpmrnum = xmlReader.getFromConf("DEFAULT_PMR_NUM",_confFile);
 	}
-	
-	@Override
-	public void runWidget() {
-		verifyWidget();
-		getInfoFromConsole();
-		loadFromLog();
-	}
+
+    @Override
+    public void runWidget(Connection conn) {
+        verifyWidget(conn);
+        getInfoFromConsole();
+        loadFromLog();
+    }
 
 	@Override
 	public void verifyWidget() {
@@ -61,9 +58,19 @@ public class VemkdPerfWidget implements Widget {
 		System.out.println("Load to Database: This script will load vemkd performance logs into database");
 		if (this.conn == null){
 			System.out.println("Database connection is lost, connecting...");
-			this.conn = dbconn.getConn();
+			setDbConnection(conn);
 		}
 	}
+
+    public void verifyWidget(Connection conn) {
+        // TODO Auto-generated method stub
+        System.out.println("Verifying this widget...with Connection object");
+        System.out.println("Load to Database: This script will load vemkd performance logs into database");
+        if (this.conn == null){
+            System.out.println("Database connection is lost, connecting...");
+            setDbConnection(conn);
+        }
+    }
 
 	@Override
 	public boolean loadWidget() {
@@ -216,22 +223,14 @@ public class VemkdPerfWidget implements Widget {
 		System.out.println("3. Do you want to write to database, default = N (N means a parser test)");
 		String strwrflag = sca.nextLine();
 		strwrflag = strwrflag.toUpperCase();
-		if(strwrflag.equals("Y")){
-			wrflag = true;
-		}else{
-			wrflag = false;
-		}
+        wrflag = strwrflag.equals("Y");
 		System.out.println("Write flag set to ["+wrflag+"]");
 		
 		if(wrflag){
 			System.out.println("4. Do you want to over-write to database, default = N (no over-write means to append those data to this PMR, it may cause duplicate records)");
 			String strowrflag = sca.nextLine();
 			strowrflag = strowrflag.toUpperCase();
-			if(strowrflag.equals("Y")){
-				owrflag = true;
-			}else{
-				owrflag = false;
-			}
+            owrflag = strowrflag.equals("Y");
 			System.out.println("Over-write flag set to ["+wrflag+"]");
 		}
 	}
@@ -288,11 +287,15 @@ public class VemkdPerfWidget implements Widget {
 		return true;
 	}
 
-	@Override
-	
-	
-	public void setDbConnection(Dbconn _dbconn) {
+    @Override
+	public void setDbConnectionPool(Dbconn _dbconn) {
 		// TODO Auto-generated method stub
 		this.dbconn = _dbconn;
+	}
+
+
+	public void setDbConnection(Connection conn) {
+		// TODO Auto-generated method stub
+		this.conn = conn;
 	}
 }

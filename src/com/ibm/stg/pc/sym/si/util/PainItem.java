@@ -44,18 +44,18 @@ public class PainItem{
 			this.changepercentage  = (float)(this.current - this.baseline)/this.baseline;
 			//System.out.println("pmatrix LHS = "+pmatrix.get(0)[t] + " RHS = "+pmatrix.get(0)[t+1]);
 			if (changepercentage <= pmatrix.get(0)[0] ){
-				this.score =  (float)pmatrix.get(index)[0];
+				this.score = pmatrix.get(index)[0];
 				return score;
 			}
 			
 			if (changepercentage > pmatrix.get(0)[pmatrix.get(index).length -1] ){
-				this.score =  (float)pmatrix.get(index)[pmatrix.get(index).length -1];
+				this.score = pmatrix.get(index)[pmatrix.get(index).length -1];
 				return score;
 			}
 			
 			if( (pmatrix.get(0)[t] <= changepercentage) && (changepercentage <= pmatrix.get(0)[t+1])){
 				//System.out.println("hit t = "+t+" index = "+index);
-				this.score =  (float)pmatrix.get(index)[t+1];
+				this.score = pmatrix.get(index)[t+1];
 				return score;
 			}
 		}

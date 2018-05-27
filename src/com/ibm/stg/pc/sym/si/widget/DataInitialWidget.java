@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.ibm.stg.pc.sym.si.util.Dbconn;
-import com.mysql.jdbc.Connection;
+import java.sql.Connection;
 
 public class DataInitialWidget implements Widget {
 
@@ -16,7 +16,7 @@ public class DataInitialWidget implements Widget {
 	
 	
 	@Override
-	public void runWidget() {
+	public void runWidget(Connection conn) {
 		
 		verifyWidget();
 		
@@ -46,7 +46,7 @@ public class DataInitialWidget implements Widget {
 				+ "order by firstname";
 		
 		try {
-			stmt1 = conn.createStatement();
+			stmt1 = this.conn.createStatement();
 			rst1 = stmt1.executeQuery(sql_getEngineerSn);
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
@@ -54,7 +54,7 @@ public class DataInitialWidget implements Widget {
 		}
 		
 		System.out.println("Note: You need to run those SQL on MYSQL manually!!!");
-		System.out.println("");
+		System.out.println();
 		
 		String sql_hotline1, sql_hotline2;
 		String i_sql_hotline1, i_sql_hotline2;
@@ -109,9 +109,20 @@ public class DataInitialWidget implements Widget {
 	public void verifyWidget() {
 		// TODO Auto-generated method stub
 		System.out.println("Verifying this widget...");
+		System.out.println("Load to Database: This script will load vemkd performance logs into database");
 		if (this.conn == null){
 			System.out.println("Database connection is lost, connecting...");
-			this.conn = dbconn.getConn();
+			setDbConnection(conn);
+		}
+	}
+
+	public void verifyWidget(Connection conn) {
+		// TODO Auto-generated method stub
+		System.out.println("Verifying this widget...");
+		System.out.println("Load to Database: This script will load vemkd performance logs into database");
+		if (this.conn == null){
+			System.out.println("Database connection is lost, connecting...");
+			setDbConnection(conn);
 		}
 	}
 
@@ -145,11 +156,16 @@ public class DataInitialWidget implements Widget {
 
 
 	@Override
-	public void setDbConnection(Dbconn _dbconn) {
+	public void setDbConnectionPool(Dbconn _dbconn) {
 		// TODO Auto-generated method stub
 		this.dbconn = _dbconn;
 	}
-	
+
+	public void setDbConnection(Connection conn) {
+		// TODO Auto-generated method stub
+		this.conn = conn;
+	}
+
 	public void setExceptions(){
 		String sql_exp[];
 		

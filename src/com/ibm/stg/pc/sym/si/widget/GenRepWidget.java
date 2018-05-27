@@ -6,8 +6,8 @@ import java.util.Scanner;
 
 import com.ibm.stg.pc.sym.si.util.Dbconn;
 import com.ibm.stg.pc.sym.si.util.XmlReader;
-import com.ibm.stg.pc.sym.si.widget.Widget;
 import com.ibm.stg.pc.sym.si.util.SiUtil;
+import java.sql.Connection;
 
 
 public class GenRepWidget implements Widget {
@@ -40,7 +40,7 @@ public class GenRepWidget implements Widget {
 	}
 	
 	@Override
-	public void runWidget() {
+	public void runWidget(Connection conn) {
 		this.getInfoFromConsole();
 		this.genReport();
 	}
@@ -125,7 +125,7 @@ public class GenRepWidget implements Widget {
 	}
 
 	@Override
-	public void setDbConnection(Dbconn _dbconn) {
+	public void setDbConnectionPool(Dbconn _dbconn) {
 		// TODO Auto-generated method stub
 		
 	}

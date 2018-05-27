@@ -54,7 +54,7 @@ public class JsonReceiver{
 				connection.setRequestProperty ("Authorization", "Basic " + encoding);
 
 				//use json retrieve code to replace it.
-				InputStream content = (InputStream)connection.getInputStream();
+				InputStream content = connection.getInputStream();
 				//BufferedReader in = new BufferedReader (new InputStreamReader (content));
 				
 				 JsonParser parser = Json.createParser(content);

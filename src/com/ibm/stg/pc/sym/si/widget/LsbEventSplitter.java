@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import com.ibm.stg.pc.sym.si.util.Dbconn;
+import java.sql.Connection;
 
 public class LsbEventSplitter implements Widget {
 	
@@ -16,7 +17,7 @@ public class LsbEventSplitter implements Widget {
 	
 	
 	@Override
-	public void runWidget() {
+	public void runWidget(Connection conn) {
 		// TODO Auto-generated method stub
 
 	}
@@ -34,7 +35,7 @@ public class LsbEventSplitter implements Widget {
 	}
 
 	@Override
-	public void setDbConnection(Dbconn _dbconn) {
+	public void setDbConnectionPool(Dbconn _dbconn) {
 		// TODO Auto-generated method stub
 
 	}

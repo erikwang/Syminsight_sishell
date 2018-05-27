@@ -54,7 +54,7 @@ public class CustomerPain {
 	public static void updateMatrix(int row, float base){
 		float[] test = new float[PainMatrix.length];
 		for(int t = 0; t < PainMatrix.length;t++){
-			test[t] = (float)(base/8) * t; 	
+			test[t] = base/8 * t;
 		}
 		customera.add(test);
 	}
